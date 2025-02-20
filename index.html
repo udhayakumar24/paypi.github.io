@@ -16,7 +16,6 @@
             <div class="wallet">
                 <span class="material-icons">account_balance_wallet</span>
                 <p><span id="pi-balance">0.00 π</span></p>
-                <button id="link-pi-btn" class="link-btn">Link Pi Account</button>
             </div>
         </div>
     </header>
@@ -71,8 +70,9 @@
                 <option value="vi">Vi</option>
                 <option value="bsnl">BSNL</option>
             </select>
-            <input type="number" id="recharge-amount" placeholder="Enter Amount (₹ or π)">
+            <input type="number" id="recharge-amount" placeholder="Enter Amount (π)">
             <button onclick="submitRecharge()">Recharge Now</button>
+            <button onclick="cancelRecharge()" class="cancel-btn">Cancel</button>
         </section>
 
         <!-- Transaction History -->
@@ -115,6 +115,16 @@
             <button onclick="closeModal()">Cancel</button>
         </div>
     </div>
+
+    <!-- Profile Section (Hidden by Default) -->
+    <section id="profile-section" class="form-section hidden">
+        <h2>Profile</h2>
+        <p><strong>Username:</strong> <span id="profile-username">Not Linked</span></p>
+        <p><strong>Wallet Balance:</strong> <span id="profile-balance">0.00 π</span></p>
+        <button id="link-pi-profile-btn" class="hidden" onclick="showLinkModal()">Link Pi Account</button>
+        <button id="unlink-pi-profile-btn" onclick="unlinkPiAccount()">Unlink Pi Account</button>
+        <button onclick="closeProfile()" class="cancel-btn">Close</button>
+    </section>
 
     <script src="script.js"></script>
 </body>
