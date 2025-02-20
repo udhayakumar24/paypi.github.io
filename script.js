@@ -137,6 +137,9 @@ function submitRecharge() {
 
 function cancelRecharge() {
     document.getElementById("recharge-form").classList.add("hidden");
+    document.getElementById("recharge-number").value = "";
+    document.getElementById("recharge-operator").value = "";
+    document.getElementById("recharge-amount").value = "";
 }
 
 // Transaction History
@@ -210,8 +213,8 @@ document.getElementById("link-pi-btn").addEventListener("click", () => {
 });
 
 function linkPiAccount() {
-    const username = document.getElementById("pi-username").value;
-    const password = document.getElementById("pi-password").value;
+    const username = document.getElementById("pi-username").value.trim();
+    const password = document.getElementById("pi-password").value.trim();
     if (username && password) {
         piUsername = username;
         isAccountLinked = true;
@@ -219,6 +222,7 @@ function linkPiAccount() {
         updateWalletBalance();
         alert(`Pi account linked successfully for ${username}! You now have 100 π to start.`);
         closeModal();
+        document.getElementById("link-pi-btn").style.display = "none"; // Hide link button after linking
     } else {
         alert("Please enter a valid username and password!");
     }
@@ -235,10 +239,14 @@ function unlinkPiAccount() {
         document.getElementById("transaction-list").innerHTML = '<li class="transaction-item placeholder">No transactions yet</li>';
         document.getElementById("profile-section").classList.add("hidden");
         document.querySelector("main").style.display = "block";
+        document.getElementById("link-pi-btn").style.display = "inline-block"; // Show link button again
         alert("Pi account unlinked successfully!");
     }
 }
 
 function closeModal() {
-    document.getElementById("pi-modal").classList.add("hidden");
+    const modal = document.getElementById("pi-modal");
+    modal.classList.add("hidden");
+    document.getElementById("pi-username").value = "";
+    document.getElementById("pi-password").value = "";
 }
