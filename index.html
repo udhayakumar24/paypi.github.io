@@ -1,134 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PayPi - Seamless Pi Crypto Payments</title>
-  <style>
-    /* Reset defaults */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; background: #f4f4f4; color: #333; }
-    
-    /* Header styling */
-    header {
-      background: #005f73;
-      color: #fff;
-      padding: 1em;
-      text-align: center;
-    }
-    header h1 { font-size: 2em; }
-    nav { margin-top: 0.5em; }
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      margin: 0 1em;
-      font-weight: bold;
-      font-size: 0.95em;
-    }
-    
-    /* Container for main content */
-    .container {
-      max-width: 480px;
-      margin: 1em auto;
-      background: #fff;
-      padding: 1em;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .section-title {
-      text-align: center;
-      margin-bottom: 1em;
-      font-size: 1.5em;
-      color: #005f73;
-    }
-    
-    /* Payment Card Styling */
-    .payment-card {
-      background: #e0fbfc;
-      padding: 1em;
-      border-radius: 8px;
-      margin-bottom: 1em;
-    }
-    .payment-card h2 {
-      text-align: center;
-      margin-bottom: 0.8em;
-      color: #005f73;
-    }
-    .payment-card form input,
-    .payment-card form button {
-      width: 100%;
-      padding: 0.8em;
-      margin: 0.5em 0;
-      border: none;
-      border-radius: 4px;
-    }
-    .payment-card form input {
-      border: 1px solid #ccc;
-    }
-    .payment-card form button {
-      background: #005f73;
-      color: #fff;
-      font-size: 1em;
-      cursor: pointer;
-    }
-    .payment-card p {
-      text-align: center;
-      margin: 0.5em 0;
-    }
-    
-    /* Policy Section Styling */
-    .policy-section {
-      margin-top: 2em;
-      font-size: 0.95em;
-      line-height: 1.6;
-    }
-    .policy-section h2 { margin-bottom: 0.5em; color: #005f73; }
-    .policy-section h3 { margin: 0.8em 0 0.3em; color: #333; }
-    .policy-section a { color: #005f73; text-decoration: none; }
-    
-    /* Footer styling */
-    footer {
-      text-align: center;
-      padding: 1em;
-      background: #005f73;
-      color: #fff;
-      margin-top: 2em;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 480px) {
-      .container { margin: 0.5em; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPi - Pi Payment Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>PayPi</h1>
+            <div class="wallet">
+                <span class="material-icons">account_balance_wallet</span>
+                <p><span id="pi-balance">0.00 π</span></p>
+                <button id="link-pi-btn" class="link-btn">Link Pi Account</button>
+            </div>
+        </div>
+    </header>
 
-  <!-- Header with Navigation -->
-  <header>
-    <h1>PayPi</h1>
-    <nav>
-      <a href="#dashboard">Dashboard</a>
-      <a href="#privacy-policy">Privacy Policy</a>
-      <a href="#terms-of-service">Terms of Service</a>
+    <!-- Main Content -->
+    <main>
+        <!-- QR Code Section -->
+        <section class="qr-section">
+            <button class="qr-btn" onclick="scanQR()">
+                <span class="material-icons">qr_code_scanner</span>
+                Scan & Pay
+            </button>
+            <button class="qr-btn secondary" onclick="generateQR()">
+                <span class="material-icons">qr_code</span>
+                My QR Code
+            </button>
+            <div id="qr-display" class="qr-display"></div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="action-card" onclick="sendPi()">
+                <span class="material-icons">send</span>
+                <p>Send Pi</p>
+            </div>
+            <div class="action-card" onclick="receivePi()">
+                <span class="material-icons">call_received</span>
+                <p>Receive Pi</p>
+            </div>
+            <div class="action-card" onclick="payBills()">
+                <span class="material-icons">receipt_long</span>
+                <p>Pay Bills</p>
+            </div>
+            <div class="action-card" onclick="mobileRecharge()">
+                <span class="material-icons">phone_android</span>
+                <p>Mobile Recharge</p>
+            </div>
+            <div class="action-card" onclick="buyGoods()">
+                <span class="material-icons">shopping_cart</span>
+                <p>Daily Needs</p>
+            </div>
+        </section>
+
+        <!-- Mobile Recharge Form (Hidden by Default) -->
+        <section id="recharge-form" class="form-section hidden">
+            <h2>Mobile Recharge</h2>
+            <input type="tel" id="recharge-number" placeholder="Enter Mobile Number" maxlength="10">
+            <select id="recharge-operator">
+                <option value="">Select Operator</option>
+                <option value="airtel">Airtel</option>
+                <option value="jio">Jio</option>
+                <option value="vi">Vi</option>
+                <option value="bsnl">BSNL</option>
+            </select>
+            <input type="number" id="recharge-amount" placeholder="Enter Amount (₹ or π)">
+            <button onclick="submitRecharge()">Recharge Now</button>
+        </section>
+
+        <!-- Transaction History -->
+        <section class="history">
+            <h2>Recent Transactions</h2>
+            <ul id="transaction-list">
+                <li class="transaction-item placeholder">No transactions yet</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="showHome()">
+            <span class="material-icons">home</span>
+            <p>Home</p>
+        </div>
+        <div class="nav-item" onclick="showHistory()">
+            <span class="material-icons">history</span>
+            <p>History</p>
+        </div>
+        <div class="nav-item" onclick="showProfile()">
+            <span class="material-icons">person</span>
+            <p>Profile</p>
+        </div>
     </nav>
-  </header>
 
-  <!-- Payment Dashboard -->
-  <div class="container" id="dashboard">
-    <div class="section-title">Payment Dashboard</div>
-    
-    <!-- Send Pi Payment Card -->
-    <div class="payment-card">
-      <h2>Send Pi</h2>
-      <form>
-        <input type="text" placeholder="Recipient's Wallet Address" required>
-        <input type="number" placeholder="Amount in Pi" step="0.01" required>
-        <button type="submit">Send Payment</button>
-      </form>
+    <!-- Pi Account Linking Modal (Hidden by Default) -->
+    <div id="pi-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Link Pi Account</h2>
+            <input type="text" id="pi-username" placeholder="Pi Username">
+            <input type="password" id="pi-password" placeholder="Pi Password">
+            <button onclick="linkPiAccount()">Link Now</button>
+            <button onclick="closeModal()">Cancel</button>
+        </div>
     </div>
-    
-    <!-- Receive Pi Card -->
-    <div class="payment-card">
-      <h2>Receive Pi</h2>
-      <p>Your Wallet Address:</p>
-      
+
+    <script src="script.js"></script>
+</body>
+</html>
