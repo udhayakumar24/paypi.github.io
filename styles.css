@@ -1,0 +1,314 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #673AB7, #512DA8);
+    color: white;
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content h1 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.wallet {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wallet .material-icons {
+    font-size: 20px;
+}
+
+.wallet p {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.link-btn {
+    background-color: #FFC107;
+    color: #333;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+}
+
+/* QR Section */
+.qr-section {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.qr-btn {
+    background-color: #673AB7;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 250px;
+    margin: 10px auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.qr-btn.secondary {
+    background-color: #FFC107;
+    color: #333;
+}
+
+.qr-btn:hover {
+    opacity: 0.9;
+}
+
+.qr-display {
+    margin-top: 20px;
+    display: none;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.action-card {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.action-card:hover {
+    transform: translateY(-3px);
+}
+
+.action-card .material-icons {
+    font-size: 36px;
+    color: #673AB7;
+    margin-bottom: 5px;
+}
+
+.action-card p {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Recharge Form */
+.form-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+}
+
+.form-section h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.form-section input,
+.form-section select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-section button {
+    background-color: #673AB7;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Transaction History */
+.history h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+#transaction-list {
+    list-style: none;
+}
+
+.transaction-item {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-item .material-icons {
+    font-size: 24px;
+    color: #673AB7;
+    margin-right: 10px;
+}
+
+.transaction-item div {
+    flex-grow: 1;
+}
+
+.transaction-item p {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.transaction-item small {
+    font-size: 12px;
+    color: #777;
+}
+
+.transaction-item .amount {
+    font-weight: 700;
+    color: #D32F2F; /* Red for debit */
+}
+
+.transaction-item.placeholder {
+    justify-content: center;
+    color: #777;
+    font-style: italic;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    text-align: center;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.nav-item .material-icons {
+    font-size: 24px;
+    color: #673AB7;
+}
+
+.nav-item p {
+    font-size: 12px;
+    color: #333;
+}
+
+.nav-item.active .material-icons,
+.nav-item.active p {
+    color: #FFC107; /* Yellow accent */
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.modal-content button {
+    background-color: #673AB7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content button:nth-child(2) {
+    background-color: #ccc;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}
