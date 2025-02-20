@@ -1,73 +1,122 @@
-// Simulated Pi Wallet Balance
+// Simulated Pi Wallet Balance and User Data
 let piBalance = 0.00;
 let transactions = [];
+let isAccountLinked = false;
+let piUsername = "Not Linked";
 
 // Update Wallet Balance
 function updateWalletBalance() {
     document.getElementById("pi-balance").textContent = `${piBalance.toFixed(2)} π`;
+    if (isAccountLinked) {
+        document.getElementById("profile-balance").textContent = `${piBalance.toFixed(2)} π`;
+    }
 }
 updateWalletBalance();
 
 // QR Code Functions
 function scanQR() {
-    alert("Simulating QR scan... Integrate with a QR library or Pi API for real scanning.");
-    const amount = prompt("Enter amount to pay (π):");
-    if (amount && !isNaN(amount)) {
+    if (!isAccountLinked) {
+        alert("Please link your Pi account first!");
+        return;
+    }
+    const amount = prompt("Enter amount to pay (π):", "5.00");
+    if (amount && !isNaN(amount) && piBalance >= parseFloat(amount)) {
         piBalance -= parseFloat(amount);
-        addTransaction(`Paid ${amount} π via QR`, -parseFloat(amount));
+        addTransaction(`Paid ${amount} π via QR to Vendor`, -parseFloat(amount));
         updateWalletBalance();
+        alert(`Successfully paid ${amount} π!`);
+    } else {
+        alert("Invalid amount or insufficient balance!");
     }
 }
 
 function generateQR() {
+    if (!isAccountLinked) {
+        alert("Please link your Pi account first!");
+        return;
+    }
     const qrDisplay = document.getElementById("qr-display");
     qrDisplay.style.display = "block";
-    qrDisplay.innerHTML = "<p>Your QR Code (Simulated)</p><div style='width: 100px; height: 100px; background: #ccc; margin: 0 auto;'></div>";
-    alert("Generate your QR code here for receiving Pi. Use a QR library like qrcode.js.");
+    qrDisplay.innerHTML = `<p>Your QR Code for ${piUsername}</p><div style='width: 100px; height: 100px; background: #ccc; margin: 0 auto;'></div>`;
+    setTimeout(() => {
+        qrDisplay.style.display = "none";
+    }, 5000); // Hide after 5 seconds
 }
 
 // Payment Functions
 function sendPi() {
-    const recipient = prompt("Enter recipient Pi username:");
-    const amount = prompt("Enter amount to send (π):");
-    if (recipient && amount && !isNaN(amount)) {
+    if (!isAccountLinked) {
+        alert("Please link your Pi account first!");
+        return;
+    }
+    const recipient = prompt("Enter recipient Pi username:", "friend123");
+    const amount = prompt("Enter amount to send (π):", "10.00");
+    if (recipient && amount && !isNaN(amount) && piBalance >= parseFloat(amount)) {
         piBalance -= parseFloat(amount);
         addTransaction(`Sent ${amount} π to ${recipient}`, -parseFloat(amount));
         updateWalletBalance();
+        alert(`Successfully sent ${amount} π to ${recipient}!`);
+    } else {
+        alert("Invalid input or insufficient balance!");
     }
 }
 
 function receivePi() {
-    const amount = prompt("Enter amount to receive (π):");
+    if (!isAccountLinked) {
+        alert("Please link your Pi account first!");
+        return;
+    }
+    const amount = prompt("Enter amount to receive (π):", "15.00");
     if (amount && !isNaN(amount)) {
         piBalance += parseFloat(amount);
-        addTransaction(`Received ${amount} π`, parseFloat(amount));
+        addTransaction(`Received ${amount} π from Friend`, parseFloat(amount));
         updateWalletBalance();
+        alert(`Successfully received ${amount} π!`);
+    } else {
+        alert("Invalid amount!");
     }
 }
 
 function payBills() {
-    const billType = prompt("Enter bill type (e.g., Electricity, Water):");
-    const amount = prompt("Enter bill amount (π):");
-    if (billType && amount && !isNaN(amount)) {
+    if (!isAccountLinked) {
+        alert("Please link your Pi account first!");
+        return;
+    }
+    const billType = prompt("Enter bill type (e.g., Electricity, Water):", "Electricity");
+    const amount = prompt("Enter bill amount (π):", "20.00");
+    if (billType && amount && !isNaN(amount) && piBalance >= parseFloat(amount)) {
         piBalance -= parseFloat(amount);
         addTransaction(`Paid ${amount} π for ${billType}`, -parseFloat(amount));
         updateWalletBalance();
+        alert(`Bill for ${billType} paid successfully!`);
+    } else {
+        alert("Invalid input or insufficient balance!");
     }
 }
 
 function buyGoods() {
-    const item = prompt("Enter item (e.g., Vegetables, Stationery):");
-    const amount = prompt("Enter amount (π):");
-    if (item && amount && !isNaN(amount)) {
+    if (!isAccountLinked) {
+        alert("Please link your Pi account first!");
+        return;
+    }
+    const item = prompt("Enter item (e.g., Vegetables, Stationery):", "Vegetables");
+    const amount = prompt("Enter amount (π):", "5.00");
+    if (item && amount && !isNaN(amount) && piBalance >= parseFloat(amount)) {
         piBalance -= parseFloat(amount);
         addTransaction(`Bought ${item} for ${amount} π`, -parseFloat(amount));
         updateWalletBalance();
+        alert(`Successfully bought ${item} for ${amount} π!`);
+    } else {
+        alert("Invalid input or insufficient balance!");
     }
 }
 
 // Mobile Recharge
 function mobileRecharge() {
+    if (!isAccountLinked) {
+        alert("Please link your Pi account first!");
+        return;
+    }
     document.getElementById("recharge-form").classList.remove("hidden");
 }
 
@@ -75,14 +124,19 @@ function submitRecharge() {
     const number = document.getElementById("recharge-number").value;
     const operator = document.getElementById("recharge-operator").value;
     const amount = document.getElementById("recharge-amount").value;
-    if (number.length === 10 && operator && amount && !isNaN(amount)) {
+    if (number.length === 10 && operator && amount && !isNaN(amount) && piBalance >= parseFloat(amount)) {
         piBalance -= parseFloat(amount);
         addTransaction(`Recharged ${number} (${operator}) for ${amount} π`, -parseFloat(amount));
         updateWalletBalance();
         document.getElementById("recharge-form").classList.add("hidden");
+        alert(`Recharge successful for ${number}!`);
     } else {
-        alert("Please enter valid details.");
+        alert("Invalid details or insufficient balance!");
     }
+}
+
+function cancelRecharge() {
+    document.getElementById("recharge-form").classList.add("hidden");
 }
 
 // Transaction History
@@ -106,32 +160,82 @@ function addTransaction(description, amount) {
 
 // Navigation
 function showHome() {
-    alert("Already on Home!");
+    document.getElementById("profile-section").classList.add("hidden");
+    document.querySelector("main").style.display = "block";
+    document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+    document.querySelector(".nav-item:nth-child(1)").classList.add("active");
 }
 
 function showHistory() {
-    alert("Switch to full History view.");
+    if (!isAccountLinked) {
+        alert("Please link your Pi account first!");
+        return;
+    }
+    alert("Showing recent transactions in the main view!");
+    document.getElementById("profile-section").classList.add("hidden");
+    document.querySelector("main").style.display = "block";
+    document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+    document.querySelector(".nav-item:nth-child(2)").classList.add("active");
 }
 
 function showProfile() {
-    alert("Switch to Profile view with Pi account details.");
+    if (!isAccountLinked) {
+        alert("Please link your Pi account first!");
+        return;
+    }
+    document.querySelector("main").style.display = "none";
+    const profileSection = document.getElementById("profile-section");
+    profileSection.classList.remove("hidden");
+    document.getElementById("profile-username").textContent = piUsername;
+    document.getElementById("profile-balance").textContent = `${piBalance.toFixed(2)} π`;
+    document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+    document.querySelector(".nav-item:nth-child(3)").classList.add("active");
+}
+
+function closeProfile() {
+    document.getElementById("profile-section").classList.add("hidden");
+    document.querySelector("main").style.display = "block";
+    document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+    document.querySelector(".nav-item:nth-child(1)").classList.add("active");
 }
 
 // Pi Account Linking
 document.getElementById("link-pi-btn").addEventListener("click", () => {
-    document.getElementById("pi-modal").classList.remove("hidden");
+    if (isAccountLinked) {
+        alert("Account already linked! Check your profile.");
+        showProfile();
+    } else {
+        document.getElementById("pi-modal").classList.remove("hidden");
+    }
 });
 
 function linkPiAccount() {
     const username = document.getElementById("pi-username").value;
     const password = document.getElementById("pi-password").value;
     if (username && password) {
-        alert(`Simulating Pi account linking for ${username}. Integrate Pi mainnet API here.`);
-        piBalance = 50.00; // Simulated initial balance
+        piUsername = username;
+        isAccountLinked = true;
+        piBalance = 100.00; // Simulated starting balance
         updateWalletBalance();
+        alert(`Pi account linked successfully for ${username}! You now have 100 π to start.`);
         closeModal();
     } else {
-        alert("Please enter valid Pi credentials.");
+        alert("Please enter a valid username and password!");
+    }
+}
+
+function unlinkPiAccount() {
+    if (confirm("Are you sure you want to unlink your Pi account?")) {
+        isAccountLinked = false;
+        piUsername = "Not Linked";
+        piBalance = 0.00;
+        transactions = [];
+        updateWalletBalance();
+        document.getElementById("profile-username").textContent = "Not Linked";
+        document.getElementById("transaction-list").innerHTML = '<li class="transaction-item placeholder">No transactions yet</li>';
+        document.getElementById("profile-section").classList.add("hidden");
+        document.querySelector("main").style.display = "block";
+        alert("Pi account unlinked successfully!");
     }
 }
 
