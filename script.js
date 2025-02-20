@@ -9,14 +9,20 @@ function updateWalletBalance() {
     document.getElementById("pi-balance").textContent = `${piBalance.toFixed(2)} π`;
     if (isAccountLinked) {
         document.getElementById("profile-balance").textContent = `${piBalance.toFixed(2)} π`;
+        document.getElementById("link-pi-profile-btn").classList.add("hidden");
+        document.getElementById("unlink-pi-profile-btn").classList.remove("hidden");
+    } else {
+        document.getElementById("link-pi-profile-btn").classList.remove("hidden");
+        document.getElementById("unlink-pi-profile-btn").classList.add("hidden");
     }
+    document.getElementById("profile-username").textContent = piUsername;
 }
 updateWalletBalance();
 
 // QR Code Functions
 function scanQR() {
     if (!isAccountLinked) {
-        alert("Please link your Pi account first!");
+        alert("Please link your Pi account first in the Profile section!");
         return;
     }
     const amount = prompt("Enter amount to pay (π):", "5.00");
@@ -32,7 +38,7 @@ function scanQR() {
 
 function generateQR() {
     if (!isAccountLinked) {
-        alert("Please link your Pi account first!");
+        alert("Please link your Pi account first in the Profile section!");
         return;
     }
     const qrDisplay = document.getElementById("qr-display");
@@ -46,7 +52,7 @@ function generateQR() {
 // Payment Functions
 function sendPi() {
     if (!isAccountLinked) {
-        alert("Please link your Pi account first!");
+        alert("Please link your Pi account first in the Profile section!");
         return;
     }
     const recipient = prompt("Enter recipient Pi username:", "friend123");
@@ -63,7 +69,7 @@ function sendPi() {
 
 function receivePi() {
     if (!isAccountLinked) {
-        alert("Please link your Pi account first!");
+        alert("Please link your Pi account first in the Profile section!");
         return;
     }
     const amount = prompt("Enter amount to receive (π):", "15.00");
@@ -79,7 +85,7 @@ function receivePi() {
 
 function payBills() {
     if (!isAccountLinked) {
-        alert("Please link your Pi account first!");
+        alert("Please link your Pi account first in the Profile section!");
         return;
     }
     const billType = prompt("Enter bill type (e.g., Electricity, Water):", "Electricity");
@@ -96,7 +102,7 @@ function payBills() {
 
 function buyGoods() {
     if (!isAccountLinked) {
-        alert("Please link your Pi account first!");
+        alert("Please link your Pi account first in the Profile section!");
         return;
     }
     const item = prompt("Enter item (e.g., Vegetables, Stationery):", "Vegetables");
@@ -114,7 +120,7 @@ function buyGoods() {
 // Mobile Recharge
 function mobileRecharge() {
     if (!isAccountLinked) {
-        alert("Please link your Pi account first!");
+        alert("Please link your Pi account first in the Profile section!");
         return;
     }
     document.getElementById("recharge-form").classList.remove("hidden");
@@ -171,7 +177,7 @@ function showHome() {
 
 function showHistory() {
     if (!isAccountLinked) {
-        alert("Please link your Pi account first!");
+        alert("Please link your Pi account first in the Profile section!");
         return;
     }
     alert("Showing recent transactions in the main view!");
@@ -182,15 +188,10 @@ function showHistory() {
 }
 
 function showProfile() {
-    if (!isAccountLinked) {
-        alert("Please link your Pi account first!");
-        return;
-    }
     document.querySelector("main").style.display = "none";
     const profileSection = document.getElementById("profile-section");
     profileSection.classList.remove("hidden");
-    document.getElementById("profile-username").textContent = piUsername;
-    document.getElementById("profile-balance").textContent = `${piBalance.toFixed(2)} π`;
+    updateWalletBalance();
     document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
     document.querySelector(".nav-item:nth-child(3)").classList.add("active");
 }
@@ -203,14 +204,9 @@ function closeProfile() {
 }
 
 // Pi Account Linking
-document.getElementById("link-pi-btn").addEventListener("click", () => {
-    if (isAccountLinked) {
-        alert("Account already linked! Check your profile.");
-        showProfile();
-    } else {
-        document.getElementById("pi-modal").classList.remove("hidden");
-    }
-});
+function showLinkModal() {
+    document.getElementById("pi-modal").classList.remove("hidden");
+}
 
 function linkPiAccount() {
     const username = document.getElementById("pi-username").value.trim();
@@ -222,7 +218,6 @@ function linkPiAccount() {
         updateWalletBalance();
         alert(`Pi account linked successfully for ${username}! You now have 100 π to start.`);
         closeModal();
-        document.getElementById("link-pi-btn").style.display = "none"; // Hide link button after linking
     } else {
         alert("Please enter a valid username and password!");
     }
@@ -237,9 +232,6 @@ function unlinkPiAccount() {
         updateWalletBalance();
         document.getElementById("profile-username").textContent = "Not Linked";
         document.getElementById("transaction-list").innerHTML = '<li class="transaction-item placeholder">No transactions yet</li>';
-        document.getElementById("profile-section").classList.add("hidden");
-        document.querySelector("main").style.display = "block";
-        document.getElementById("link-pi-btn").style.display = "inline-block"; // Show link button again
         alert("Pi account unlinked successfully!");
     }
 }
