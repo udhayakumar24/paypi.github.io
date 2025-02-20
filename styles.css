@@ -48,16 +48,6 @@ header {
     font-weight: 500;
 }
 
-.link-btn {
-    background-color: #FFC107;
-    color: #333;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
 /* Main Content */
 main {
     padding: 20px;
@@ -146,6 +136,10 @@ main {
 .form-section h2 {
     font-size: 18px;
     margin-bottom: 15px;
+}
+
+.form-section p {
+    margin-bottom: 10px;
 }
 
 .form-section input,
