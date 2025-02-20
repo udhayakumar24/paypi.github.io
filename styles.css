@@ -227,7 +227,7 @@ main {
 /* Bottom Navigation */
 .bottom-nav {
     position: fixed;
-    bottom: 0;
+    bottom: 50px; /* Adjusted for footer */
     width: 100%;
     background-color: white;
     display: flex;
@@ -255,6 +255,56 @@ main {
 .nav-item.active .material-icons,
 .nav-item.active p {
     color: #FFC107; /* Yellow accent */
+}
+
+/* Footer */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+}
+
+footer a {
+    color: #673AB7;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Policy Pages */
+.policy-content {
+    background-color: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.policy-content h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.policy-content h3 {
+    font-size: 18px;
+    margin: 15px 0 10px;
+}
+
+.policy-content p {
+    margin-bottom: 15px;
+}
+
+.policy-content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 15px;
 }
 
 /* Modal */
