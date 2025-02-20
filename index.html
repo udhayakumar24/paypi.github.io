@@ -103,4 +103,18 @@
     <!-- Footer with Links -->
     <footer>
         <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-use.html">Terms of Use</a></p>
-    </footer
+    </footer>
+
+    <!-- Profile Section (Hidden by Default) -->
+    <section id="profile-section" class="form-section hidden">
+        <h2>Profile</h2>
+        <p><strong>Username:</strong> <span id="profile-username">Not Linked</span></p>
+        <p><strong>Wallet Balance:</strong> <span id="profile-balance">0.00 π</span></p>
+        <button id="link-pi-profile-btn" onclick="showLinkModal()">Link Pi Account</button>
+        <button id="unlink-pi-profile-btn" class="hidden" onclick="unlinkPiAccount()">Unlink Pi Account</button>
+        <button onclick="closeProfile()" class="cancel-btn">Close</button>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
